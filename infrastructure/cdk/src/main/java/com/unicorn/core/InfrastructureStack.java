@@ -84,7 +84,7 @@ public class InfrastructureStack extends Stack {
                 .instanceIdentifier("UnicornInstance")
                 .instanceType(InstanceType.of(InstanceClass.BURSTABLE3, InstanceSize.MEDIUM))
                 .vpcSubnets(SubnetSelection.builder()
-                        .subnetType(SubnetType.PRIVATE_ISOLATED)
+                        .subnetType(SubnetType.PUBLIC)
                         .build())
                 .securityGroups(List.of(databaseSecurityGroup))
                 .credentials(Credentials.fromSecret(databaseSecret))

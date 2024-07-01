@@ -1,5 +1,7 @@
 #bin/sh
 
+set -e
+
 # Build the database setup function
 ./mvnw clean package -f infrastructure/db-setup/pom.xml
 
@@ -20,4 +22,4 @@ cdk deploy UnicornStoreInfrastructure --require-approval never --outputs-file ta
 aws lambda invoke --function-name $(cat target/output.json | jq -r '.UnicornStoreInfrastructure.DbSetupArn') /dev/stdout | cat;
 
 cd -
-./setup-vpc-peering.sh
+#./setup-vpc-peering.sh
