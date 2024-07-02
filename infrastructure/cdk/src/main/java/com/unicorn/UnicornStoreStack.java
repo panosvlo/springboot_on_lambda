@@ -8,6 +8,9 @@ import software.amazon.awscdk.services.lambda.Code;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
 import software.constructs.Construct;
+import software.amazon.awscdk.services.lambda.SnapStartConf;
+import software.amazon.awscdk.services.lambda.Version;
+
 
 import java.util.List;
 import java.util.Map;
@@ -43,15 +46,15 @@ public class UnicornStoreStack extends Stack {
                 .build());
     }
 
-    private RestApi setupRestApi(Function unicornStoreSpringLambda) {
+    private RestApi setupRestApi(Version unicornStoreSpringLambda) {
         return LambdaRestApi.Builder.create(this, "UnicornStoreSpringApi")
                 .restApiName("UnicornStoreSpringApi")
                 .handler(unicornStoreSpringLambda)
                 .build();
     }
 
-    private Function createUnicornLambdaFunction() {
-        return Function.Builder.create(this, "UnicornStoreSpringFunction")
+    private Version createUnicornLambdaFunction() {
+        var lambda =  Function.Builder.create(this, "UnicornStoreSpringFunction")
                 .runtime(Runtime.JAVA_21)
                 .functionName("unicorn-store-spring")
                 .memorySize(2048)
@@ -67,7 +70,10 @@ public class UnicornStoreStack extends Stack {
                     "AWS_SERVERLESS_JAVA_CONTAINER_INIT_GRACE_TIME", "250",
                     "MAIN_CLASS", "com.unicorn.store.StoreApplication"
                 ))
+                .snapStart(SnapStartConf.ON_PUBLISHED_VERSIONS)
                 .build();
+        // Return version
+        return lambda.getCurrentVersion();
     }
 
 }
