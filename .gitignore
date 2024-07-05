@@ -238,3 +238,4 @@
 /software/unicorn-store-spring/target/store-spring-1.0.0.jar
 /software/unicorn-store-spring/target/
 /software/alternatives/unicorn-store-quarkus/target/
+/infrastructure/db-setup/target/
