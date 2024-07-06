@@ -25,3 +25,14 @@ then
   exit 0
 fi
 
+if [ $app == "spring-lambda-snapstart" ]
+then
+  if [[ $build == "--build" ]]
+  then
+    ./mvnw clean package -f software/unicorn-store-spring-lambda/pom.xml
+  fi
+  cd infrastructure/cdk
+  cdk deploy UnicornStoreSpringLambdaSnapstart --outputs-file target/output-spring-lambda-snapstart.json --require-approval never
+  exit 0
+fi
+

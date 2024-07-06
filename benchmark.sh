@@ -16,3 +16,10 @@ then
 fi
 
 
+if [ $app == "spring-lambda-snapstart" ]
+then
+  artillery run -t $(cat infrastructure/cdk/target/output-spring-lambda-snapstart.json | jq -r '.UnicornStoreSpringLambdaSnapstart.ApiEndpointSpringLambdaSnapstart') -v '{ "url": "/unicorns" }' infrastructure/loadtest.yaml
+  exit 0
+fi
+
+

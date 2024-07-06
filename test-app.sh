@@ -32,4 +32,19 @@ then
 fi
 
 
+if [ $app == "spring-lambda-snapstart" ]
+then
+    curl --location --request POST $(cat infrastructure/cdk/target/output-spring-lambda-snapstart.json | jq -r '.UnicornStoreSpringLambdaSnapstart.ApiEndpointSpringLambdaSnapstart')'/unicorns' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+    "name": "Something",
+    "age": "Older",
+    "type": "Animal",
+    "size": "Very big"
+}' | jq
+
+  exit 0
+fi
+
+
 
