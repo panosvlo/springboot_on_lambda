@@ -25,14 +25,3 @@ then
   exit 0
 fi
 
-if [ $app == "audit-service" ]
-then
-  if [[ $build == "--build" ]]
-  then
-    ./mvnw clean package -f software/alternatives/unicorn-audit-service/pom.xml
-  fi
-  cd infrastructure/cdk
-  cdk deploy UnicornAuditServiceApp --outputs-file target/output-audit-service.json --require-approval never
-  exit 0
-fi
-

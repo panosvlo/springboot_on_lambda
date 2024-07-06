@@ -2,7 +2,6 @@ package com.unicorn;
 
 import java.util.List;
 
-import com.unicorn.alternatives.UnicornAuditService;
 import com.unicorn.alternatives.UnicornStoreSpringGraalVM;
 import com.unicorn.core.InfrastructureStack;
 
@@ -26,9 +25,6 @@ public class UnicornStoreApp {
                 .build(), infrastructureStack);
 
         var unicornStoreSpringGraalVM = new UnicornStoreSpringGraalVM(app, "UnicornStoreSpringGraalVMApp", StackProps.builder()
-                .build(), infrastructureStack);
-
-        var unicornAuditService = new UnicornAuditService(app, "UnicornAuditServiceApp", StackProps.builder()
                 .build(), infrastructureStack);
 
 
@@ -58,7 +54,6 @@ public class UnicornStoreApp {
         NagSuppressions.addStackSuppressions(infrastructureStack, suppression);
         NagSuppressions.addStackSuppressions(unicornStoreSpring, suppression);
         NagSuppressions.addStackSuppressions(unicornStoreSpringGraalVM, suppression);
-        NagSuppressions.addStackSuppressions(unicornAuditService, suppression);
 
         app.synth();
     }
