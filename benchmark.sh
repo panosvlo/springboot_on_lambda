@@ -2,7 +2,7 @@
 
 app=$1
 
-if [ $app == "spring" ]
+if [ $app == "spring-lambda" ]
 then
   artillery run -t $(cat infrastructure/cdk/target/output.json | jq -r '.UnicornStoreSpringApp.ApiEndpointSpring') -v '{ "url": "/unicorns" }' infrastructure/loadtest.yaml
   exit 0

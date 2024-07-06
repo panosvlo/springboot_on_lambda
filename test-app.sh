@@ -2,7 +2,7 @@
 
 app=$1
 
-if [ $app == "spring" ]
+if [ $app == "spring-lambda" ]
 then
   curl --location --request POST $(cat infrastructure/cdk/target/output.json | jq -r '.UnicornStoreSpringApp.ApiEndpointSpring')'/unicorns' \
   --header 'Content-Type: application/json' \
