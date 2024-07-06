@@ -8,9 +8,6 @@ import software.amazon.awscdk.services.lambda.Code;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
 import software.constructs.Construct;
-import software.amazon.awscdk.services.lambda.SnapStartConf;
-import software.amazon.awscdk.services.lambda.Version;
-
 
 import java.util.List;
 import java.util.Map;
@@ -46,34 +43,30 @@ public class UnicornStoreStack extends Stack {
                 .build());
     }
 
-    private RestApi setupRestApi(Version unicornStoreSpringLambda) {
+    private RestApi setupRestApi(Function unicornStoreSpringLambda) {
         return LambdaRestApi.Builder.create(this, "UnicornStoreSpringApi")
                 .restApiName("UnicornStoreSpringApi")
                 .handler(unicornStoreSpringLambda)
                 .build();
     }
 
-    private Version createUnicornLambdaFunction() {
-        var lambda =  Function.Builder.create(this, "UnicornStoreSpringFunction")
+    private Function createUnicornLambdaFunction() {
+        return Function.Builder.create(this, "UnicornStoreSpringFunction")
                 .runtime(Runtime.JAVA_21)
                 .functionName("unicorn-store-spring")
-                .memorySize(2048)
+                .memorySize(512)
                 .timeout(Duration.seconds(29))
                 .code(Code.fromAsset("../../software/unicorn-store-spring/target/store-spring-1.0.0.jar"))
-                .handler("com.amazonaws.serverless.proxy.spring.SpringDelegatingLambdaContainerHandler")
+                .handler("com.unicorn.store.StreamLambdaHandler::handleRequest")
                 .vpc(infrastructureStack.getVpc())
                 .securityGroups(List.of(infrastructureStack.getApplicationSecurityGroup()))
                 .environment(Map.of(
                     "SPRING_DATASOURCE_PASSWORD", infrastructureStack.getDatabaseSecretString(),
                     "SPRING_DATASOURCE_URL", infrastructureStack.getDatabaseJDBCConnectionString(),
                     "SPRING_DATASOURCE_HIKARI_maximumPoolSize", "1",
-                    "AWS_SERVERLESS_JAVA_CONTAINER_INIT_GRACE_TIME", "250",
-                    "MAIN_CLASS", "com.unicorn.store.StoreApplication"
+                    "AWS_SERVERLESS_JAVA_CONTAINER_INIT_GRACE_TIME", "250"
                 ))
-                .snapStart(SnapStartConf.ON_PUBLISHED_VERSIONS)
                 .build();
-        // Return version
-        return lambda.getCurrentVersion();
     }
 
 }
