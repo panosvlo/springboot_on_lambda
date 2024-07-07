@@ -100,9 +100,21 @@ public class InfrastructureStack extends Stack {
     }
 
     private IVpc createUnicornVpc() {
-         IVpc vpc = Vpc.Builder.create(this, "UnicornVpc")
+        IVpc vpc = Vpc.Builder.create(this, "UnicornVpc")
                 .vpcName("UnicornVPC")
-                .natGateways(0)
+                .natGateways(1)  // Number of NAT Gateways to deploy
+                .subnetConfiguration(List.of(
+                        SubnetConfiguration.builder()
+                                .name("PublicSubnet")
+                                .subnetType(SubnetType.PUBLIC)
+                                .cidrMask(24)
+                                .build(),
+                        SubnetConfiguration.builder()
+                                .name("PrivateSubnet")
+                                .subnetType(SubnetType.PRIVATE_WITH_NAT)
+                                .cidrMask(24)
+                                .build()
+                ))
                 .build();
         new CfnOutput(this, "UnicornStoreVpcId", CfnOutputProps.builder().value(vpc.getVpcId()).build());
         return vpc;

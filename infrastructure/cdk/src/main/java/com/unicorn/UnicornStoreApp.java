@@ -5,6 +5,7 @@ import java.util.List;
 import com.unicorn.alternatives.UnicornStoreSpringGraalVM;
 import com.unicorn.alternatives.UnicornStoreSpringLambdaSnapstart;
 import com.unicorn.core.InfrastructureStack;
+import com.unicorn.core.EcsStack;
 
 import io.github.cdklabs.cdknag.AwsSolutionsChecks;
 import io.github.cdklabs.cdknag.NagPackSuppression;
@@ -21,6 +22,9 @@ public class UnicornStoreApp {
 
         var infrastructureStack = new InfrastructureStack(app, "UnicornStoreInfrastructure", StackProps.builder()
                 .build());
+
+        var ecsStack = new EcsStack(app, "UnicornStoreEcsStack", StackProps.builder()
+                .build(), infrastructureStack);
 
         var unicornStoreSpring = new UnicornStoreStack(app, "UnicornStoreSpringApp", StackProps.builder()
                 .build(), infrastructureStack);
@@ -52,6 +56,10 @@ public class UnicornStoreApp {
                 new NagPackSuppression.Builder().id("AwsSolutions-APIG3").reason("Workshop API Gateways do not need AWS WAF assigned").build(),
                 new NagPackSuppression.Builder().id("AwsSolutions-EC23").reason("Not needed").build(),
                 new NagPackSuppression.Builder().id("AwsSolutions-RDS13").reason("Workshop Database does not need backups").build(),
+                new NagPackSuppression.Builder().id("AwsSolutions-ECS4").reason("Not needed").build(),
+                new NagPackSuppression.Builder().id("AwsSolutions-ECS2").reason("Not needed").build(),
+//                new NagPackSuppression.Builder().id("AwsSolutions-ECS7").reason("Not needed").build(),
+                new NagPackSuppression.Builder().id("AwsSolutions-ELB2").reason("Not needed").build(),
                 new NagPackSuppression.Builder().id("CdkNagValidationFailure").reason("Suppress warnings see: https://github.com/cdklabs/cdk-nag/issues/817").build()
         );
 
@@ -59,6 +67,7 @@ public class UnicornStoreApp {
         NagSuppressions.addStackSuppressions(unicornStoreSpring, suppression);
         NagSuppressions.addStackSuppressions(unicornStoreSpringGraalVM, suppression);
         NagSuppressions.addStackSuppressions(unicornStoreSpringLambdaSnapstart, suppression);
+        NagSuppressions.addStackSuppressions(ecsStack, suppression);
 
         app.synth();
     }

@@ -22,4 +22,10 @@ then
   exit 0
 fi
 
+if [ $app == "spring-lambda-ecs" ]
+then
+  artillery run -t $(cat infrastructure/cdk/target/output-spring-ecs.json | jq -r '.UnicornStoreEcsStack.LoadBalancerDNS') -v '{ "url": "/unicorns" }' infrastructure/loadtest.yaml
+  exit 0
+fi
+
 

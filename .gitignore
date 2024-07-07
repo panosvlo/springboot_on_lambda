@@ -25,3 +25,4 @@
 /software/alternatives/unicorn-store-quarkus/target/
 /infrastructure/db-setup/target/
 /software/unicorn-store-spring-lambda/target/
+/software/alternatives/unicorn-store-spring-graalvm/target/
