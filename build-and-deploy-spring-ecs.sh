@@ -32,4 +32,8 @@ docker tag ${IMAGE_NAME}:latest ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${
 # Push the Docker image to ECR
 docker push ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${REPOSITORY_NAME}:latest
 
-cd -
+cd ../../infrastructure/cdk
+
+cdk deploy UnicornStoreEcsStack --outputs-file target/output-spring-ecs.json --require-approval never
+cd ../../
+pwd

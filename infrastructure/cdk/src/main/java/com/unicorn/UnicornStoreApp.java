@@ -2,7 +2,6 @@ package com.unicorn;
 
 import java.util.List;
 
-import com.unicorn.alternatives.UnicornStoreSpringGraalVM;
 import com.unicorn.alternatives.UnicornStoreSpringLambdaSnapstart;
 import com.unicorn.core.InfrastructureStack;
 import com.unicorn.core.EcsStack;
@@ -27,9 +26,6 @@ public class UnicornStoreApp {
                 .build(), infrastructureStack);
 
         var unicornStoreSpring = new UnicornStoreStack(app, "UnicornStoreSpringApp", StackProps.builder()
-                .build(), infrastructureStack);
-
-        var unicornStoreSpringGraalVM = new UnicornStoreSpringGraalVM(app, "UnicornStoreSpringGraalVMApp", StackProps.builder()
                 .build(), infrastructureStack);
 
         var unicornStoreSpringLambdaSnapstart = new UnicornStoreSpringLambdaSnapstart(app, "UnicornStoreSpringLambdaSnapstart", StackProps.builder()
@@ -65,7 +61,6 @@ public class UnicornStoreApp {
 
         NagSuppressions.addStackSuppressions(infrastructureStack, suppression);
         NagSuppressions.addStackSuppressions(unicornStoreSpring, suppression);
-        NagSuppressions.addStackSuppressions(unicornStoreSpringGraalVM, suppression);
         NagSuppressions.addStackSuppressions(unicornStoreSpringLambdaSnapstart, suppression);
         NagSuppressions.addStackSuppressions(ecsStack, suppression);
 

@@ -46,5 +46,19 @@ then
   exit 0
 fi
 
+if [ $app == "spring-ecs" ]
+then
+    curl --location --request POST $(cat infrastructure/cdk/target/output-spring-ecs.json | jq -r '.UnicornStoreEcsStack.LoadBalancerDNS')'/unicorns' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+    "name": "Something",
+    "age": "Older",
+    "type": "Animal",
+    "size": "Very big"
+}' | jq
+
+  exit 0
+fi
+
 
 
