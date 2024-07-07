@@ -44,15 +44,15 @@ public class EcsStack extends Stack {
 
         // Create a Fargate task definition
         FargateTaskDefinition taskDefinition = FargateTaskDefinition.Builder.create(this, "TaskDef")
-                .memoryLimitMiB(512)
-                .cpu(256)
+                .memoryLimitMiB(2048)
+                .cpu(1024)
                 .executionRole(executionRole)
                 .build();
 
         // Add container to the task definition
         ContainerDefinition UnicornStoreContainer = taskDefinition.addContainer("UnicornStoreContainer", ContainerDefinitionOptions.builder()
                 .image(ContainerImage.fromRegistry(accountId + ".dkr.ecr." + region + ".amazonaws.com/unicorn-store-repo:latest"))
-                .memoryLimitMiB(512)
+                .memoryLimitMiB(2048)
                 .environment(Map.of(
                         "SPRING_DATASOURCE_PASSWORD", infrastructureStack.getDatabaseSecretString(),
                         "SPRING_DATASOURCE_URL", infrastructureStack.getDatabaseJDBCConnectionString()

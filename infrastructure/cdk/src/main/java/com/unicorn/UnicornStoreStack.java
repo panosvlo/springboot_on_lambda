@@ -54,7 +54,7 @@ public class UnicornStoreStack extends Stack {
         return Function.Builder.create(this, "UnicornStoreSpringFunction")
                 .runtime(Runtime.JAVA_21)
                 .functionName("unicorn-store-spring")
-                .memorySize(512)
+                .memorySize(2048)
                 .timeout(Duration.seconds(29))
                 .code(Code.fromAsset("../../software/unicorn-store-spring-lambda/target/store-spring-lambda-1.0.0.jar"))
                 .handler("com.amazonaws.serverless.proxy.spring.SpringDelegatingLambdaContainerHandler")

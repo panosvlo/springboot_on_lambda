@@ -48,7 +48,7 @@ public class UnicornStoreSpringLambdaSnapstart extends Stack {
         var lambda =  Function.Builder.create(this, "UnicornStoreSpringSnapstartFunction")
                 .runtime(Runtime.JAVA_21)
                 .functionName("unicorn-store-spring-lambda-snapstart")
-                .memorySize(512)
+                .memorySize(2048)
                 .timeout(Duration.seconds(29))
                 .code(Code.fromAsset("../../software/unicorn-store-spring-lambda/target/store-spring-lambda-1.0.0.jar"))
                 .handler("com.amazonaws.serverless.proxy.spring.SpringDelegatingLambdaContainerHandler")
